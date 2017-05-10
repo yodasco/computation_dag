@@ -3,7 +3,6 @@ Computation topology builder.
 Allows one to build computation topologies, thus encapsulate computation's
 logic from it's topology.
 '''
-from loader import load_df_from_json, load_data_from_mysql
 
 
 class DataAdapter:
@@ -26,7 +25,7 @@ class JsonDataAdapter(DataAdapter):
 
     def get_data_frame(self):
         try:
-            df = load_df_from_json(self.ctx, self.path, False)
+            df = self.ctx.read.json(self.path)
             df.first()
         except Exception as e:
             raise Exception('JsonDataAdapter %s: Path %s seems to be invalid.'
@@ -46,9 +45,16 @@ class MySqlDataAdapter(DataAdapter):
         self.schema = schema
         self.tbl_name = tbl_name
 
+    def load_data_from_mysql(self):
+        dbt = '{schema}.{table}'.format(schema=self.schema,
+                                        table=self.tbl_name)
+        df = self.ctx.read.jdbc(self.conn_string,
+                                dbt,
+                                properties={'driver': 'com.mysql.jdbc.Driver'})
+        return df
+
     def get_data_frame(self):
-        df = load_data_from_mysql(self.ctx, self.conn_string, self.schema,
-                                  self.tbl_name)
+        df = self.load_data_from_mysql()
         try:
             df.first()
         except Exception as e:
