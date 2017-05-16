@@ -6,7 +6,10 @@ logic from it's topology.
 
 
 class DataAdapter:
-    def get_data_frame():
+    def get_format_string(self):
+        pass
+
+    def get_data_frame(self):
         pass
 
 
@@ -22,6 +25,9 @@ class JsonDataAdapter(DataAdapter):
         self.ctx = ctx
         self.path = path
         self.name = name
+
+    def get_format_string(self):
+        return 'json'
 
     def get_data_frame(self):
         try:
@@ -44,6 +50,9 @@ class MySqlDataAdapter(DataAdapter):
         self.conn_string = conn_string
         self.schema = schema
         self.tbl_name = tbl_name
+
+    def get_format_string(self):
+        return 'mysql'
 
     def load_data_from_mysql(self):
         dbt = '{schema}.{table}'.format(schema=self.schema,
@@ -71,6 +80,9 @@ class TextDataAdapter(DataAdapter):
             raise Exception('path is null or empty')
         self.ctx = ctx
         self.path = path
+
+    def get_format_string(self):
+        return 'txt'
 
     def get_data_frame(self):
         df = self.ctx.read.text(self.path)
@@ -113,12 +125,12 @@ class TrivialNode(Node):
     '''
     Nodes which require no previous computation.
     '''
-    def __init__(self, data_adaptor, name=None):
+    def __init__(self, data_adapter, name=None):
         Node.__init__(self, name)
-        self.data_adaptor = data_adaptor
+        self.data_adapter = data_adapter
 
     def compute(self):
-        return self.data_adaptor.get_data_frame()
+        return self.data_adapter.get_data_frame()
 
     def is_root_node(self):
         '''
