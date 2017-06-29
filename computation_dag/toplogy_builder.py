@@ -6,32 +6,40 @@ logic from it's topology.
 
 
 class DataAdapter:
+    def _validate_path(self):
+        if (self.path is None) or (not self.path):
+            err = 'path is null or empty'
+            if self.name:
+                err += " in Data Adapter '{}'".format(self.name)
+            raise Exception(err)
+
+    def _try_load(self, f, **kwargs):
+        try:
+            df = f(path=self.path, **kwargs)
+            df.first()
+            return df
+        except Exception as e:
+            raise Exception('{}: Path {} seems to be invalid.\n'
+                            '{}'.
+                            format(self.__class__.__name__,
+                                   self.path,
+                                   e))
+
     def get_data_frame():
         pass
 
 
 class JsonDataAdapter(DataAdapter):
     def __init__(self, ctx, path, name=None):
-        if ctx is None:
-            raise Exception('None context')
-        if (path is None) or (not path):
-            err = 'path is null or empty'
-            if name:
-                err += " in Data Adapter '{}'".format(name)
-            raise Exception(err)
         self.ctx = ctx
         self.path = path
         self.name = name
+        self._validate_path()
+        if ctx is None:
+            raise Exception('None context')
 
     def get_data_frame(self):
-        try:
-            df = self.ctx.read.json(self.path)
-            df.first()
-        except Exception as e:
-            raise Exception('JsonDataAdapter %s: Path %s seems to be invalid.'
-                            ' %s'
-                            % (self.name, self.path, e))
-        return df
+        return self._try_load(self.ctx.read.json)
 
 
 class MySqlDataAdapter(DataAdapter):
@@ -67,18 +75,25 @@ class TextDataAdapter(DataAdapter):
     def __init__(self, ctx, path):
         if ctx is None:
             raise Exception('None context')
-        if (path is None) or (not path):
-            raise Exception('path is null or empty')
         self.ctx = ctx
         self.path = path
+        self._validate_path()
 
     def get_data_frame(self):
-        df = self.ctx.read.text(self.path)
-        try:
-            df.first()
-        except Exception as e:
-            raise Exception('Path %s seems to be invalid. %s' % (self.path, e))
-        return df
+        return self._try_load(self.ctx.read.text)
+
+
+class CsvDataAdapter(DataAdapter):
+    def __init__(self, ctx, path, **kwargs):
+        if ctx is None:
+            raise Exception('None context')
+        self.ctx = ctx
+        self.path = path
+        self.kwargs = kwargs
+        self._validate_path()
+
+    def get_data_frame(self):
+        return self._try_load(self.ctx.read.csv, **self.kwargs)
 
 
 class Node:
