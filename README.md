@@ -1,7 +1,7 @@
 # computation_dag
 
 ## Synopsis
-Ease the access to GraphQL APIs.
+SPARK computation framework.
 
 ## Motivation
 A framework for composing displaying testing and dbuggining complex `Spark`
