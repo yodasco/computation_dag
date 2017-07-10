@@ -30,16 +30,17 @@ class DataAdapter:
 
 
 class JsonDataAdapter(DataAdapter):
-    def __init__(self, ctx, path, name=None):
+    def __init__(self, ctx, path, name=None, schema=None):
         self.ctx = ctx
         self.path = path
         self.name = name
         self._validate_path()
+        self.schema = schema
         if ctx is None:
             raise Exception('None context')
 
     def get_data_frame(self):
-        return self._try_load(self.ctx.read.json)
+        return self._try_load(self.ctx.read.json, schema=self.schema)
 
 
 class MySqlDataAdapter(DataAdapter):
