@@ -3,6 +3,7 @@ Computation topology builder.
 Allows one to build computation topologies, thus encapsulate computation's
 logic from it's topology.
 '''
+import collections
 
 
 class DataAdapter:
@@ -15,8 +16,14 @@ class DataAdapter:
 
     def _try_load(self, f, **kwargs):
         try:
-            df = f(path=self.path, **kwargs)
-            df.first()
+            if isinstance(self.path, str):
+                df = f(path=self.path, **kwargs)
+                df.first()
+            else:
+                frames = map(lambda the_path: f(path=the_path, **kwargs),
+                             self.path)
+                df = reduce(lambda l, r: l.union(r), frames)
+                df.first()
             return df
         except Exception as e:
             raise Exception('{}: Path {} seems to be invalid.\n'
