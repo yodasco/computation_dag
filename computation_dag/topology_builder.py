@@ -16,15 +16,16 @@ class DataAdapter:
 
     def _try_load(self, f, **kwargs):
         try:
-            if isinstance(self.path, str):
+            if isinstance(self.path, basestring):
                 df = f(path=self.path, **kwargs)
                 df.first()
-            else:
+            elif isinstance(self.path, collections.Iterable):
                 frames = map(lambda the_path: f(path=the_path, **kwargs),
                              self.path)
                 df = reduce(lambda l, r: l.union(r), frames)
                 df.first()
             return df
+            raise Exception('unsuported type {}'.format(type(self.path)))
         except Exception as e:
             raise Exception('{}: Path {} seems to be invalid.\n'
                             '{}'.
