@@ -31,6 +31,6 @@ def generate_dot(graph, output_path):
 
     for node in nodes:
         for child in node.each_child():
-            f.write('\t%d -> %d\n' % (nodes[node], nodes[child]))
+            f.write('\t%d -> %d\n' % (nodes[child], nodes[node]))
     f.write('}\n')
     f.close()
