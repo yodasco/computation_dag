@@ -6,7 +6,7 @@ from pyspark.sql.functions import col
 from pyspark import SparkContext
 from pyspark.conf import SparkConf
 from pyspark.sql import HiveContext
-import graph_action as GA
+import graph_actions as GA
 from topology_builder import TrivialNode, ComputationNode, ComputationGraph
 from topology_builder import CsvDataAdapter
 

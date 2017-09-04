@@ -23,16 +23,13 @@ endif
 #
 # Invoke flow. Invokes a given flow on spark, in the given mode.
 # Arguments:
-# 	flavor: local/remote/reuse.
+# 	flavor: local/remote.
 #	executable: Flow to be executed.
 #	Arguments: arguments to be passed to the flow.
 #
 define invoke_flow
 	set noglob
 	@case $(1) in \
-		reuse) \
-		echo reuse run not yet implemented ; \
-		;; \
 		local) \
 		PYSPARK_DRIVER_PYTHON=python spark-submit \
 		--master local[*] \
@@ -71,7 +68,7 @@ define invoke_flow
 	esac
 endef
 
-all: example.py
+all: example.py guard-FLAVOR
 	$(eval ARGS:=--input_animals=$(ANIMAL_PATH) \
 	 			 --input_noises=$(NOISES_PATH) \
 				 --output_match=$(OUT_PATH))
