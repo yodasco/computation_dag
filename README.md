@@ -48,11 +48,13 @@ def match_animals_to_noises(ctx, df_animals, df_noises):
 
 ## Running the example
     The supplied `Makefile` can be used to run the example like so:
-    `FLAVOR=local make all` will run the SPARK job locally. (Naturally, you need
-    to have SPARK install locally and in the PATH so it will work).
+
+    `FLAVOR=local make all` will run the SPARK job locally.
+    (Naturally, you need to have SPARK install locally and in the PATH so it will work).
+
     `FLAVOR=remote make all` will use AWS's SPARK provisioning ([EMR](https://aws.amazon.com/emr/)).
     Be sure to change modify the `Makefile` variables so it would fit your AWS
-    environment (_e.g._, Bucket name, AWS region, etc.).
+    environment (*e.g.*, Bucket name, AWS region, etc.).
 
 ## Instalation
 TBD
