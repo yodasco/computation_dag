@@ -12,6 +12,9 @@ def _replace_ilegal_chars(attribute):
 
 
 def generate_dot(graph, output_path):
+    '''
+    Generates a 'dot' file of the computation topology of the given graph.
+    '''
     f = open(output_path, 'w')
     nodes = dict()
 
@@ -34,3 +37,15 @@ def generate_dot(graph, output_path):
             f.write('\t%d -> %d\n' % (nodes[child], nodes[node]))
     f.write('}\n')
     f.close()
+
+
+def trace_run(graph, out_path):
+    '''
+    Writes each the output of every computation node to a specified folder.
+    '''
+
+    def _write_node(node):
+        node.compute().write.json(path=os.path.join(out_path, node.get_name()),
+                                  mode='overwrite')
+
+    graph.dfs(_write_node)
