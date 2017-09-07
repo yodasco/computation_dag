@@ -89,7 +89,7 @@ class TextDataAdapter(DataAdapter):
         self._validate_path()
 
     def get_data_frame(self):
-        return self._try_load(self.ctx.read.text)
+        return self.ctx.read.text(self.path)
 
 
 class CsvDataAdapter(DataAdapter):
