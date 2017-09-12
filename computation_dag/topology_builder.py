@@ -224,8 +224,9 @@ class IndexedComputationNode(ComputationNode):
 
 
 class OutputNode(Node):
-    def __init__(self, name, write_f, **kwargs):
+    def __init__(self, write_f, name, **kwargs):
         Node.__init__(self, name)
+        self.dependencies = list()
         self.write_f = write_f
         self.param_dict = kwargs
 
@@ -238,8 +239,7 @@ class OutputNode(Node):
     def add_dependency(self, node):
         if self.dependencies:
             raise Exception('Output node can have one dependency at most')
-        self.dependency = list()
-        self.dependency.append(node)
+        self.dependencies.append(node)
         return self
 
     def is_output_node(self):
@@ -247,6 +247,10 @@ class OutputNode(Node):
 
     def set_output_node(self, val):
         pass
+
+    def each_child(self):
+        for child in self.dependencies:
+            yield child
 
 
 class ComputationGraph():
