@@ -57,4 +57,5 @@ Be sure to tweak the `Makefile` so it would fit your AWS environment
 (*e.g.*, Bucket name, AWS region, etc.).
 
 ## Instalation
-TBD
+From the source folder,
+pip -r requirements.txt
