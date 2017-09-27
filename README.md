@@ -12,7 +12,7 @@ This pakage is provided with a full working example.
 To run the example localy: `FLAVOR=local make all`.
 To print the computation graph to a pdf file: `make example.pdf`
 
-![Example.pdf](example.png?raw=true "\(Automatically produced\) Image of the computation graph automatically prduced")
+![Example.pdf](example.png?raw=true "Automatically produced Image of the computation graph automatically prduced")
 
 Below are code fragments of the example.
 1. Creating a computation node from CSV input file.
