@@ -11,7 +11,7 @@ computation flows.
 This pakage is provided with a full working example.
 To run the example localy: `FLAVOR=local make all`.
 To print the computation graph to a pdf file: `make example.pdf`
-![Example.pdf](https://github.com/yodasco/computation_dag/master/example.png)
+![Example.pdf](blob/master/example.png?raw=true)
 Below are code fragments of the example.
 1. Creating a computation node from CSV input file.
 ```python
