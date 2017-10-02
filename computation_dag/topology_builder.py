@@ -105,6 +105,18 @@ class CsvDataAdapter(DataAdapter):
         return self._try_load(self.ctx.read.csv, **self.kwargs)
 
 
+class LibsvmDataAdapter(DataAdapter):
+    def __init__(self, ctx, path):
+        if ctx is None:
+            raise Exception('None context')
+        self.ctx = ctx
+        self.path = path
+        self._validate_path()
+
+    def get_data_frame(self):
+        return self._try_load(self.ctx.read.format('libsvm').load)
+
+
 class Node:
     def __init__(self, name):
         self.output_node = True
