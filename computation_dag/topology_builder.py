@@ -24,6 +24,8 @@ class DataAdapter:
                              self.path)
                 df = reduce(lambda l, r: l.union(r), frames)
                 df.first()
+            print('DAG Builder: Loaded data frame containing {} records from'
+                  ' {}'.format(df.count(), self.path))
             return df
             raise Exception('unsuported type {}'.format(type(self.path)))
         except Exception as e:
