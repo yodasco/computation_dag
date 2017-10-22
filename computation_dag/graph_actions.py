@@ -29,7 +29,7 @@ def generate_dot(graph, output_path):
         color = 'blue' if node.is_output_node() else 'black'
         shape = 'box' if node.is_root_node() else 'ellipse'
         node_name = _replace_ilegal_chars(node.get_name())
-        f.write('\t%d [label=%s color=%s shape=%s];\n'
+        f.write('\t%d [label="%s" color=%s shape=%s];\n'
                 % (nodes[node], node_name, color, shape))
 
     for node in nodes:
