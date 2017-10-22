@@ -16,14 +16,14 @@ class DataAdapter:
 
     def _try_load(self, f, **kwargs):
         try:
-            path_list = self.path.split()
-            print('Elior print: loading {}'.format(path_list))
-            frames = map(lambda the_path: f(path=the_path, **kwargs),
-                         path_list)
-            df = reduce(lambda l, r: l.union(r), frames)
-            df.first()
-            print('Elior print: loaded data frame contains {} records'
-                  .format(df.count()))
+            if isinstance(self.path, basestring):
+                df = f(path=self.path, **kwargs)
+                df.first()
+            elif isinstance(self.path, collections.Iterable):
+                frames = map(lambda the_path: f(path=the_path, **kwargs),
+                             self.path)
+                df = reduce(lambda l, r: l.union(r), frames)
+                df.first()
             return df
             raise Exception('unsuported type {}'.format(type(self.path)))
         except Exception as e:
