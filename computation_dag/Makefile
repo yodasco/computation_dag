@@ -5,7 +5,7 @@ NOISES_PATH_LOCAL:=_data/noises/noises.csv
 NOISES_PATH_REMOTE:=s3://$(S3_BUCKET)/noises.csv
 OUT_PATH_LOCAL:=_out/
 OUT_PATH_REMOTE:=s3://$(S3_BUCKET)/match/
-MY_EMAIL:=elior@yodas.com
+MY_EMAIL:=eliorm76@gmail.com
 
 ifneq (,$(filter $(FLAVOR),local print))
 	LIMIT_RECORDS:=5000
