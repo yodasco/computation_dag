@@ -1,0 +1,8 @@
+.DS_Store
+.idea
+computation_dag/_out/
+computation_dag/derby.log
+computation_dag/example.dot
+computation_dag/example.pdf
+computation_dag/*.pyc
+computation_dag/metastore_db/
